@@ -1,0 +1,25 @@
+{
+  "name": "oophp/mailparse",
+  "description": "Mailparse PHP extension in Object Oriented",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Yehuda Deutsch",
+      "email": "yeh@uda.co.il"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "OOPHP\\Mailparse\\": "src/",
+      "Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "php": "^7.0",
+    "ext-mailparse": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.0",
+    "idestubs/mailparse": "1.0.1"
+  }
+}
