@@ -1,6 +1,6 @@
 <?php
 
-namespace OOPHP\Mailparse\Exceptions;
+namespace OOPHP\Mailparse\Exception;
 
 class NonReadableStream extends \Exception
 {}
