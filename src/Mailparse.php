@@ -2,7 +2,7 @@
 
 namespace OOPHP\Mailparse;
 
-use OOPHP\Mailparse\Exceptions\NonReadableStream;
+use OOPHP\Mailparse\Exception\NonReadableStream;
 
 /**
  * Class Parse
