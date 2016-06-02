@@ -44,12 +44,12 @@ class Mailparse
     public function setStream($stream)
     {
         $meta = @stream_get_meta_data($stream);
-        if ( ! $meta || ! $meta['mode'] || $meta['mode'][0] != 'r' || $meta['eof']) {
+        if (!$meta || !$meta['mode'] || $meta['mode'][0] != 'r' || $meta['eof']) {
             throw new NonReadableStream();
         }
 
         $this->resource = mailparse_msg_create();
-        while ( ! feof($stream)) {
+        while (!feof($stream)) {
             mailparse_msg_parse($this->resource, fread($stream, 2082));
         }
 
@@ -64,8 +64,8 @@ class Mailparse
     public function setText(string $text)
     {
         $this->resource = mailparse_msg_create();
-        $eaten          = 0;
-        $text_length    = strlen($text);
+        $eaten = 0;
+        $text_length = strlen($text);
         while ($eaten < $text_length) {
             mailparse_msg_parse($this->resource, substr($text, $eaten, 2082));
             $eaten += 2082;
@@ -75,7 +75,7 @@ class Mailparse
     }
 
     /**
-     * @param mixed $filename
+     * @param mixed    $filename
      * @param callable $callback [optional]
      *
      * @return string
@@ -86,7 +86,7 @@ class Mailparse
     }
 
     /**
-     * @param string $msgBody
+     * @param string   $msgBody
      * @param callable $callback
      *
      * @return void
@@ -97,7 +97,7 @@ class Mailparse
     }
 
     /**
-     * @param string $filename
+     * @param string   $filename
      * @param callable $callback
      *
      * @return void
