@@ -75,14 +75,6 @@ class Mailparse
     }
 
     /**
-     * @return string
-     */
-    public function determineBestXferEncoding()
-    {
-        return mailparse_determine_best_xfer_encoding($this->resource);
-    }
-
-    /**
      * @param mixed $filename
      * @param callable $callback [optional]
      *
