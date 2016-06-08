@@ -12,13 +12,21 @@ use OOPHP\Mailparse\Exception\NonReadableStream;
 class Mailparse
 {
     /**
-     * @var resource
+     * @var resource $resource mailparse handle
      */
     protected $resource;
 
+    /**
+     * @var string $text The actual message's text
+     */
+    protected $text;
+
+    /**
+     * if $this->resource is still active, close it
+     */
     public function __destruct()
     {
-        if ($this->resource) {
+        if (is_resource($this->resource)) {
             mailparse_msg_free($this->resource);
         }
     }
@@ -30,9 +38,9 @@ class Mailparse
      */
     public function setPath(string $path)
     {
-        $this->resource = mailparse_msg_parse_file($path);
+        $text = file_get_contents($path);
 
-        return $this;
+        return $this->setText($text);
     }
 
     /**
@@ -48,12 +56,12 @@ class Mailparse
             throw new NonReadableStream();
         }
 
-        $this->resource = mailparse_msg_create();
+        $text = '';
         while (!feof($stream)) {
-            mailparse_msg_parse($this->resource, fread($stream, 2082));
+            $text .= fread($stream, 2082);
         }
 
-        return $this;
+        return $this->setText($text);
     }
 
     /**
@@ -72,6 +80,14 @@ class Mailparse
         }
 
         return $this;
+    }
+
+    /**
+     * @return string Returns the actual message text
+     */
+    public function getText()
+    {
+        return $this->text;
     }
 
     /**

@@ -21,7 +21,7 @@ class Utils
      *
      * @return bool Returns TRUE on success or FALSE on failure.
      */
-    public function encodeStream($srcFilePointer, $destFilePointer, string $encoding)
+    public static function encodeStream($srcFilePointer, $destFilePointer, string $encoding)
     {
         return mailparse_stream_encode($srcFilePointer, $destFilePointer, $encoding);
     }
@@ -35,7 +35,7 @@ class Utils
      *               - address  => The email address
      *               - is_group => TRUE if the recipient is a newsgroup, FALSE otherwise.
      */
-    public function parseRFC822Addresses(string $addresses)
+    public static function parseRFC822Addresses(string $addresses)
     {
         return mailparse_rfc822_parse_addresses($addresses);
     }
@@ -48,7 +48,7 @@ class Utils
      *               - origfilename => The original filename, for uuencoded parts only
      *               The first filename entry is the message body. The next entries are the decoded uuencoded files.
      */
-    public function uudecodeAll($filePointer)
+    public static function uudecodeAll($filePointer)
     {
         return mailparse_uudecode_all($filePointer);
     }
