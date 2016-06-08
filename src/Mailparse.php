@@ -116,25 +116,41 @@ class Mailparse
      * @param string   $filename
      * @param callable $callback
      *
-     * @return void
+     * @return string
      */
     public function extractWholePartFile(string $filename, callable $callback)
     {
-        mailparse_msg_extract_whole_part_file($this->resource, $filename, $callback);
+        return mailparse_msg_extract_whole_part_file($this->resource, $filename, $callback);
     }
 
     /**
-     * @return mixed
+     * @param resource|null $part
+     *
+     * @return array
      */
-    public function getPartData()
+    public function getPartData($part = null)
     {
-        return mailparse_msg_get_part_data($this->resource);
+        if ($part === null) {
+            $part = $this->resource;
+        }
+
+        return mailparse_msg_get_part_data($part);
+    }
+
+    /**
+     * @param $partId
+     *
+     * @return array
+     */
+    public function getPartDataByPartId($partId)
+    {
+        return $this->getPartData($this->getPart($partId));
     }
 
     /**
      * @param string $section
      *
-     * @return mixed
+     * @return resource
      */
     public function getPart(string $section)
     {
@@ -142,7 +158,7 @@ class Mailparse
     }
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getStructure()
     {
