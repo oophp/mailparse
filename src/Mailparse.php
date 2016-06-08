@@ -140,11 +140,15 @@ class Mailparse
     /**
      * @param $partId
      *
-     * @return array
+     * @return Mailparse
      */
-    public function getPartDataByPartId($partId)
+    public function getPartObject(string $partId): Mailparse
     {
-        return $this->getPartData($this->getPart($partId));
+        $object = new static;
+        $object->text = &$this->text;
+        $object->resource = $this->getPart($partId);
+
+        return $object;
     }
 
     /**
