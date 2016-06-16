@@ -2,7 +2,7 @@
 
 namespace OOPHP\Mailparse;
 
-use OOPHP\Mailparse\Exception\NonReadableStream;
+use OOPHP\Mailparse\Exception\NonReadableStreamException;
 
 /**
  * Class Parse
@@ -47,13 +47,13 @@ class Mailparse
      * @param resource $stream
      *
      * @return $this
-     * @throws NonReadableStream
+     * @throws NonReadableStreamException
      */
     public function setStream($stream, bool $closeStream = false)
     {
         $meta = @stream_get_meta_data($stream);
         if (!$meta || !$meta['mode'] || $meta['mode'][0] != 'r' || $meta['eof']) {
-            throw new NonReadableStream();
+            throw new NonReadableStreamException();
         }
 
         $text = '';
