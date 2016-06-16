@@ -49,7 +49,7 @@ class Mailparse
      * @return $this
      * @throws NonReadableStream
      */
-    public function setStream($stream)
+    public function setStream($stream, bool $closeStream = false)
     {
         $meta = @stream_get_meta_data($stream);
         if (!$meta || !$meta['mode'] || $meta['mode'][0] != 'r' || $meta['eof']) {
@@ -59,6 +59,10 @@ class Mailparse
         $text = '';
         while (!feof($stream)) {
             $text .= fread($stream, 2082);
+        }
+
+        if ($closeStream) {
+            fclose($stream);
         }
 
         return $this->setText($text);
