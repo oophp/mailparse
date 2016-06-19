@@ -2,7 +2,7 @@
 
 namespace OOPHP\Mailparse;
 
-use OOPHP\Mailparse\Exception\NonReadableStream;
+use OOPHP\Mailparse\Exception\NonReadableStreamException;
 
 /**
  * Class Parse
@@ -47,18 +47,22 @@ class Mailparse
      * @param resource $stream
      *
      * @return $this
-     * @throws NonReadableStream
+     * @throws NonReadableStreamException
      */
-    public function setStream($stream)
+    public function setStream($stream, bool $closeStream = false)
     {
         $meta = @stream_get_meta_data($stream);
         if (!$meta || !$meta['mode'] || $meta['mode'][0] != 'r' || $meta['eof']) {
-            throw new NonReadableStream();
+            throw new NonReadableStreamException();
         }
 
         $text = '';
         while (!feof($stream)) {
             $text .= fread($stream, 2082);
+        }
+
+        if ($closeStream) {
+            fclose($stream);
         }
 
         return $this->setText($text);
@@ -140,11 +144,15 @@ class Mailparse
     /**
      * @param $partId
      *
-     * @return array
+     * @return Mailparse
      */
-    public function getPartDataByPartId($partId)
+    public function getPartObject(string $partId): Mailparse
     {
-        return $this->getPartData($this->getPart($partId));
+        $object = new static;
+        $object->text = &$this->text;
+        $object->resource = $this->getPart($partId);
+
+        return $object;
     }
 
     /**
