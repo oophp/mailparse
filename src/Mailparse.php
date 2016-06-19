@@ -83,6 +83,8 @@ class Mailparse
             $eaten += 2082;
         }
 
+        $this->text = $text;
+
         return $this;
     }
 
