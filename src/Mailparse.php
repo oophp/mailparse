@@ -174,4 +174,18 @@ class Mailparse
     {
         return mailparse_msg_get_structure($this->resource);
     }
+
+    /**
+     * @param resource|null $part
+     *
+     * @return string
+     */
+    public function getBody($part = null)
+    {
+        $data = $this->getPartData($part);
+        $start = $data['starting-pos-body'];
+        $end = $data['ending-pos-body'];
+
+        return substr($this->text, $start, $end - $start);
+    }
 }
